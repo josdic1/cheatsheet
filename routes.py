@@ -1,8 +1,8 @@
 from flask import request, jsonify, session
 from flask_restful import Resource
-from .extensions import db
-from .models import User, Cheat, Language, Category 
-from .serializers import user_schema, users_schema, language_schema, languages_schema, category_schema, categories_schema, cheat_schema, cheats_schema
+from extensions import db
+from models import User, Cheat, Language, Category 
+from serializers import user_schema, users_schema, language_schema, languages_schema, category_schema, categories_schema, cheat_schema, cheats_schema
 
 
 class CheckSession(Resource):

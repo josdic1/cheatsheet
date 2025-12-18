@@ -2,8 +2,8 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_restful import Api
 from flask_cors import CORS
-from .config import Config
-from .extensions import db, bcrypt
+from config import Config
+from extensions import db, bcrypt
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -20,13 +20,13 @@ def create_app(config_class=Config):
          methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"])
 
     # Import models so Flask-Migrate sees them
-    from . import models
+    import models  
     
     # Create Flask-RESTful API instance
     api = Api(app)
     
     # Register routes
-    from .routes import initialize_routes
+    from routes import initialize_routes  
     initialize_routes(api)
 
     return app

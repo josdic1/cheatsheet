@@ -1,4 +1,4 @@
-from .extensions import db, bcrypt
+from extensions import db, bcrypt
 from datetime import datetime, timezone
 from sqlalchemy.ext.associationproxy import association_proxy
 
