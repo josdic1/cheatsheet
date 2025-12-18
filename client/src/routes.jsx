@@ -1,4 +1,5 @@
 import App from "./App.jsx";
+import { CheatPage } from "./pages/CheatPage.jsx";
 import { ErrorPage } from "./pages/ErrorPage.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
 import { LoginPage } from "./pages/LoginPage.jsx";
@@ -27,6 +28,10 @@ export const routes = [
       {
         path: "/signup",
         element: <SignupPage />,
+        errorElement: <ErrorPage />,
+      },      {
+        path: "/cheats/:id",
+        element: <ProtectedRoute><CheatPage/></ProtectedRoute>,
         errorElement: <ErrorPage />,
       },
     ],

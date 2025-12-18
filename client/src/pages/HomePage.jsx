@@ -1,5 +1,6 @@
 import { useAuth } from "../hooks/useAuth";
 import { useState, useEffect } from "react";
+import { CheatList } from "../components/CheatList";
 
 export function HomePage() {
     const { loading, loggedIn } = useAuth();
@@ -18,8 +19,13 @@ export function HomePage() {
     }
     
     return (
-        <div>
-            {cheats.map(cheat => <div key={cheat.id}>{cheat.title}</div>)}
-        </div>
+        <>
+            <header className="app-header">
+      <img src="/vite.svg" alt="App logo" className="app-logo" />
+    </header>
+        <main>
+            <CheatList cheats={cheats}/>
+        </main>
+        </>
     );
 }

@@ -66,3 +66,47 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.app-header {
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-logo {
+  height: 32px;
+  width: auto;
+}
+
+.dt-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+  font-size: 0.85rem;
+}
+
+.dt-date {
+  line-height: 1;
+}
+
+.dt-clock {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.dt-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.dt-ampm {
+  position: absolute;
+  bottom: -4px;
+  right: -5px;
+  font-size: 0.55rem;
+  font-weight: 600;
+}
