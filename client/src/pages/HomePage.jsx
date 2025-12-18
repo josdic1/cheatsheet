@@ -16,7 +16,7 @@ export function HomePage() {
     if (loading) {
         return <div>Loading...</div>;
     }
- 
+    
     return (
         <div>
             {cheats.map(cheat => <div key={cheat.id}>{cheat.title}</div>)}
