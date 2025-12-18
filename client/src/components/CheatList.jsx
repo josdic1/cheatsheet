@@ -1,10 +1,10 @@
 import { CheatItem } from "../components/CheatItem";
+import { NoResults } from "./NoResults";
 
 export function CheatList({ cheats }) {
   if (!cheats || cheats.length === 0) {
-    return <p>No cheats available.</p>;
+    return <NoResults />;
   }
-
   return (
     <>
     <table>
