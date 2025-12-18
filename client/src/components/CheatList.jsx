@@ -1,7 +1,9 @@
 import { CheatItem } from "../components/CheatItem";
 
 export function CheatList({ cheats }) {
-      if (!cheats || cheats.length === 0) return null;
+  if (!cheats || cheats.length === 0) {
+    return <p>No cheats available.</p>;
+  }
 
   return (
     <>

@@ -23,6 +23,13 @@ export function LoginPage() {
             [e.target.name]: e.target.value
         });
     };
+
+    const handleAutologin = async () => {
+        setFormData({
+            email: 'jos@jos.com',
+            password: '1111'
+        });
+    }
     
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -42,7 +49,8 @@ export function LoginPage() {
             <div className="login-card">
                
                 
-                <h1>Login</h1>
+                <h1><input type='button' onClick={handleAutologin} value=';)'/>
+                    Login</h1>
                 <form onSubmit={handleSubmit}>
                     {error && <div className="login-error">{error}</div>}
                     

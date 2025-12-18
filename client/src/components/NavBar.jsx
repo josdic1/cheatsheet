@@ -16,7 +16,7 @@ export function NavBar() {
         <div>
           <span>Hello, {user?.name}</span>
           <NavLink to='/'>Home</NavLink>
-          <NavLink to='/cheats'>New</NavLink>
+          <NavLink to='/cheats/new'>New</NavLink>
           <button onClick={handleLogout}>Logout</button>
         </div>
       ) : (

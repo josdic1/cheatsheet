@@ -12,7 +12,7 @@ export function CheatPage() {
   const { loading, cheats } = useAuth(); 
 
   // 2. INITIALIZE LOCAL STATE
-  // Try to grab it from the "backpack" (router state) for instant access.
+  // Try to grab it from the "backpack"/location/{state} (router state) for instant access.
   const [cheat, setCheat] = useState(state?.cheat || null);
 
   useEffect(() => {
@@ -40,6 +40,7 @@ export function CheatPage() {
 
   return (
     <div>
+      <button onClick={() => navigate(-1)}>Go Back</button>
       <h2>{cheat.title}</h2>
       <pre>{cheat.code}</pre>
       <p>{cheat.notes}</p>

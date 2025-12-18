@@ -9,8 +9,8 @@ export function CheatItem({ cheat }) {
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this cheat?")) {
       await deleteCheat(parseInt(cheat.id));
-      navigate("/");
     }
+       navigate("/");
   };
 
   return (
@@ -36,7 +36,7 @@ export function CheatItem({ cheat }) {
             </button>
             <button
               name="edit"
-              onClick={() => navigate(`/cheats/${cheat.id}/edit`)}
+              onClick={() => navigate(`/cheats/${cheat.id}/edit`, { state: { cheat } })}
             >
               Edit
             </button>

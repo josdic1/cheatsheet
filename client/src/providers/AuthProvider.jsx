@@ -5,6 +5,7 @@ export function AuthProvider({ children }) {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [cheatsOnly, setCheatsOnly] = useState([]);
 
   const API_URL = "http://localhost:5555/api";
 
@@ -28,9 +29,18 @@ export function AuthProvider({ children }) {
     } catch (error) {
       console.error(error);
     } finally {
-      setLoading(false); // always stop loading, success or fail
+      setLoading(false); 
     }
   }
+
+
+useEffect(() => {
+  if (user?.categories) {
+    const cheats = user.categories.flatMap(cat => cat.cheats || []);
+    setCheatsOnly(cheats);
+  }
+}, [user]);
+
 
     async function signup(credentials) {
     try {
@@ -74,17 +84,85 @@ export function AuthProvider({ children }) {
     }
   }
 
-  const logout = async () => {
-    try {
-      await fetch(`${API_URL}/logout`, {
-        method: "POST",
-        credentials: "include",
-      });
-      setUser(null);
-    } catch (error) {
-      console.error("Logout error:", error);
+const logout = async () => {
+  try {
+    await fetch(`${API_URL}/logout`, {
+      method: "POST",
+      credentials: "include",
+    });
+  } catch (error) {
+    console.error("Logout error:", error);
+  } finally {
+    setUser(null);
+    setLoggedIn(false);
+  }
+};
+
+
+const createCheat = async (cheatData) => {
+  try {
+    const res = await fetch(`${API_URL}/cheats`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(cheatData),
+    });
+
+    if (res.ok) {
+      const newCheat = await res.json();
+      setCheatsOnly(prev => [...prev, newCheat]);  
+      return { success: true, cheat: newCheat };
+    } else {
+      const error = await res.json();
+      return { success: false, error: error.error };
     }
-  };
+  } catch (err) {
+    return { success: false, error: "Network error" };
+  }
+}
+
+const updateCheat = async (id, cheatData) => {
+  try {
+    const res = await fetch(`${API_URL}/cheats/${parseInt(id, 10)}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(cheatData),
+    });
+
+    if (res.ok) {
+      const updatedCheat = await res.json();
+      setCheatsOnly(prev => {
+        return prev.map(c => c.id == id ? updatedCheat : c);  // == instead of ===
+      });
+      return { success: true, cheat: updatedCheat };
+    } else {
+      const error = await res.json();
+      return { success: false, error: error.error };
+    }
+  } catch (err) {
+    return { success: false, error: "Network error" };
+  }
+}
+
+const deleteCheat = async (id) => {
+  try {
+    const res = await fetch(`${API_URL}/cheats/${parseInt(id, 10)}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+
+    if (res.ok) {
+      setCheatsOnly(prev => prev.filter(c => c.id !== parseInt(id)))
+      return { success: true };
+    } else {
+      const error = await res.json();
+      return { success: false, error: error.error };
+    }
+  } catch (err) {
+    return { success: false, error: "Network error" };
+  }
+}
 
   const value = {
     loading,
@@ -92,7 +170,11 @@ export function AuthProvider({ children }) {
     user,
     login,
     logout,
-    signup
+    signup,
+    cheatsOnly,
+    createCheat,
+    updateCheat,
+    deleteCheat
   };
 
     return (

@@ -1,4 +1,5 @@
 import App from "./App.jsx";
+import { CheatForm } from "./components/CheatForm.jsx";
 import { CheatPage } from "./pages/CheatPage.jsx";
 import { ErrorPage } from "./pages/ErrorPage.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
@@ -29,7 +30,21 @@ export const routes = [
         path: "/signup",
         element: <SignupPage />,
         errorElement: <ErrorPage />,
-      },      {
+      },{
+        path: "/cheats/new", 
+        element: <ProtectedRoute><CheatForm/></ProtectedRoute>,
+        errorElement: <ErrorPage />,
+      },
+
+      // 2. EDIT (Specific pattern)
+      {
+        path: "/cheats/:id/edit",
+        element: <ProtectedRoute><CheatForm/></ProtectedRoute>,
+        errorElement: <ErrorPage />,
+      },
+
+      // 3. VIEW (Variable ":id" catches everything else)
+      {
         path: "/cheats/:id",
         element: <ProtectedRoute><CheatPage/></ProtectedRoute>,
         errorElement: <ErrorPage />,
