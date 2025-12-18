@@ -6,10 +6,8 @@ export function CheatForm() {
     const { id } = useParams();
     const { state } = useLocation();
     const navigate = useNavigate();
-    const { createCheat, updateCheat, user } = useAuth(); 
+    const { languages, categories, createCheat, updateCheat, user } = useAuth(); 
     const [cheat, setCheat] = useState(state?.cheat || null);
-    const [languages, setLanguages] = useState([]);
-    const [categories, setCategories] = useState([]);
     const [formData, setFormData] = useState({
       title: "",
       code: "",
@@ -40,30 +38,7 @@ useEffect(() => {
   }
 }, [cheat, isEditMode]);
 
-useEffect(() => {
-  async function fetchLanguages() {
-    try {
-      const response = await fetch('/api/languages');
-      const data = await response.json();
-      setLanguages(data);
-    } catch (error) {
-      console.error('Error fetching languages:', error);
-    }
-  }
 
-  async function fetchCategories() {
-    try {
-      const response = await fetch('/api/categories');
-      const data = await response.json();
-      setCategories(data);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-    }
-  }
-
-  fetchLanguages();
-  fetchCategories();
-}, [user]);
 
 function onClear() {
   setFormData({
@@ -71,11 +46,6 @@ function onClear() {
     code: "",
     notes: ""
   });
-}
-
-function onCancel() {
-  navigate("/")
-  onClear()
 }
 
 

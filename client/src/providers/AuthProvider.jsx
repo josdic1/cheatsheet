@@ -6,6 +6,8 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [cheatsOnly, setCheatsOnly] = useState([]);
+  const [languages, setLanguages] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const API_URL = "http://localhost:5555/api";
 
@@ -40,6 +42,39 @@ useEffect(() => {
     setCheatsOnly(cheats);
   }
 }, [user]);
+
+
+useEffect(() => {
+  async function fetchLanguages() {
+    try {
+      const response = await fetch(`${API_URL}/languages`, {
+        credentials: "include"
+      });
+      const data = await response.json();
+      setLanguages(data);
+    } catch (error) {
+      console.error('Error fetching languages:', error);
+    }
+  }
+
+  fetchLanguages();
+}, []);
+
+useEffect(() => {
+  async function fetchCategories() {
+    try {
+      const response = await fetch(`${API_URL}/categories`, {
+        credentials: "include"
+      });
+      const data = await response.json();
+      setCategories(data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  }
+
+  fetchCategories();
+}, []);
 
 
     async function signup(credentials) {
@@ -174,7 +209,9 @@ const deleteCheat = async (id) => {
     cheatsOnly,
     createCheat,
     updateCheat,
-    deleteCheat
+    deleteCheat,
+languages,
+categories
   };
 
     return (
