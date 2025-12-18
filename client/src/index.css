@@ -1,45 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
+:root {
+  /* The "Warm" Green Phosphor */
+  --phosphor-main: #33ff00; 
+  --phosphor-dim: #1a8000;
+  --bg-color: #050a05; /* Not pure black, very deep green-black */
+  --crt-flicker: 0.02;
+}
 
-.app-header {
-  height: 64px;
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--phosphor-main);
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  /* The "Overdriven" Fuzz / Bloom */
+  text-shadow: 0.5px 0 1px var(--phosphor-dim), -0.5px 0 1px var(--phosphor-dim);
+  overflow-x: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* --- CRT SCANLINE OVERLAY --- */
+body::after {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg, 
+    rgba(255, 0, 0, 0.06), 
+    rgba(0, 255, 0, 0.02), 
+    rgba(0, 0, 255, 0.06)
+  );
+  z-index: 9999;
+  background-size: 100% 3px, 3px 100%;
+  pointer-events: none;
+  animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.95; }
+  50% { opacity: 0.92; }
+  100% { opacity: 0.96; }
+}
+
+/* --- LAYOUT CONTAINERS --- */
+#root {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+  border-left: 2px solid var(--phosphor-dim);
+  border-right: 2px solid var(--phosphor-dim);
+}
+
+/* --- TYPOGRAPHY --- */
+h1, h2, h3, label {
+  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+a {
+  color: var(--phosphor-main);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--phosphor-dim);
+}
+a:hover {
+  background: var(--phosphor-main);
+  color: #000;
+  text-shadow: none;
+}
+
+/* --- FORMS & INPUTS --- */
+input, select, textarea, button {
+  background: #000;
+  border: 2px solid var(--phosphor-main);
+  color: var(--phosphor-main);
+  font-family: 'VT323', monospace;
+  font-size: 1.2rem;
+  padding: 8px;
+  outline: none;
+  box-shadow: 0 0 5px var(--phosphor-dim);
+  text-transform: uppercase;
+}
+
+input:focus, select:focus, textarea:focus {
+  background: var(--phosphor-dim);
+  color: #fff;
+}
+
+/* --- BUTTONS --- */
+button {
+  cursor: pointer;
+  transition: all 0.1s;
+  text-transform: uppercase;
+}
+
+button:hover {
+  background: var(--phosphor-main);
+  color: #000;
+  box-shadow: 0 0 10px var(--phosphor-main);
+  text-shadow: none;
+}
+
+button.active {
+  background: var(--phosphor-main);
+  color: #000;
+  font-weight: bold;
+  text-shadow: none;
+}
+
+/* --- COMPONENT: FILTER PANEL --- */
+.filter-panel {
+  border: 4px double var(--phosphor-main);
+  padding: 20px;
+  margin-bottom: 20px;
+  background: rgba(0, 20, 0, 0.5);
+}
+
+.filter-section {
+  margin-bottom: 20px;
+}
+
+.filter-section label {
+  display: block;
+  background: var(--phosphor-main);
+  color: #000;
+  text-shadow: none;
+  padding: 2px 8px;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+
+.language-buttons, .category-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* --- COMPONENT: RESULTS COUNT --- */
+.results-count {
+  margin: 20px 0;
+  border-top: 1px dashed var(--phosphor-main);
+  border-bottom: 1px dashed var(--phosphor-main);
+  padding: 10px 0;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* --- COMPONENT: TABLE (CHEAT LIST) --- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border: 2px solid var(--phosphor-main);
+}
+
+thead {
+  background: var(--phosphor-dim);
+}
+
+th {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 2px solid var(--phosphor-main);
+  color: #000;
+  text-shadow: none;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid var(--phosphor-dim);
+  vertical-align: top;
+}
+
+tr:hover td {
+  background: rgba(51, 255, 0, 0.1);
+}
+
+/* --- COMPONENT: NAV BAR --- */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 4px double var(--phosphor-main);
+  padding: 10px 0;
+  margin-bottom: 30px;
+}
+
+nav a {
+  margin-left: 20px;
+  border: 1px solid transparent;
+  padding: 5px 10px;
+}
+
+nav a.active {
+  background: var(--phosphor-main);
+  color: #000;
+  text-shadow: none;
+  border-color: var(--phosphor-main);
+}
+
+/* --- COMPONENT: LOGIN / FORMS --- */
+.login-page-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 60vh;
 }
 
-.app-logo {
-  height: 32px;
-  width: auto;
+.login-card {
+  border: 4px double var(--phosphor-main);
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
 }
 
+.login-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login-error {
+  border: 1px solid var(--phosphor-main);
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    var(--phosphor-dim) 10px,
+    var(--phosphor-dim) 20px
+  );
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+/* --- UTILS: CLOCK --- */
 .dt-inline {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  white-space: nowrap;
-  font-size: 0.85rem;
-}
-
-.dt-date {
-  line-height: 1;
+  gap: 0.5rem;
 }
 
 .dt-clock {
-  position: relative;
-  width: 22px;
-  height: 22px;
-  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
 }
 
+/* Force SVG to inherit the green color */
 .dt-svg {
-  width: 100%;
-  height: 100%;
-}
-
-.dt-ampm {
-  position: absolute;
-  bottom: -4px;
-  right: -5px;
-  font-size: 0.55rem;
-  font-weight: 600;
+  stroke: var(--phosphor-main);
+  fill: var(--phosphor-main);
 }
