@@ -1,72 +1,138 @@
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+/* =========================================================
+   ROOT CONTAINER - WIDER
+   ========================================================= */
 
 :root {
-  /* The "Warm" Green Phosphor */
-  --phosphor-main: #33ff00; 
+  --phosphor-main: #33ff00;
   --phosphor-dim: #1a8000;
-  --bg-color: #050a05; /* Not pure black, very deep green-black */
-  --crt-flicker: 0.02;
+  --bg-color: #050a05;
+}
+#root > * {
+  position: relative;
+  z-index: 5;
+  
+}
+#root {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 40px;
+  min-height: 100vh;
+  border-left: 2px solid var(--phosphor-dim);
+  border-right: 2px solid var(--phosphor-dim);
+  position: relative;
 }
 
+/* =========================================================
+   GLOBAL RESET
+   ========================================================= */
 * {
   box-sizing: border-box;
 }
 
-body {
+html, body {
   margin: 0;
   padding: 0;
   background-color: var(--bg-color);
   color: var(--phosphor-main);
   font-family: 'VT323', monospace;
   font-size: 20px;
-  /* The "Overdriven" Fuzz / Bloom */
-  text-shadow: 0.5px 0 1px var(--phosphor-dim), -0.5px 0 1px var(--phosphor-dim);
+  height: 100%;
+  width: 100%;
   overflow-x: hidden;
-  height: 100vh;
-  width: 100vw;
+
+  /* phosphor bloom */
+  text-shadow:
+    0 0 1px var(--phosphor-main),
+    0 0 6px rgba(51,255,0,0.45);
 }
 
-/* --- CRT SCANLINE OVERLAY --- */
-body::after {
-  content: " ";
-  display: block;
+/* =========================================================
+   PHOSPHOR DOT GRID (SHADOW MASK)
+   ========================================================= */
+body::before {
+  content: "";
   position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: linear-gradient(
-    rgba(18, 16, 16, 0) 50%, 
-    rgba(0, 0, 0, 0.25) 50%
-  ), linear-gradient(
-    90deg, 
-    rgba(255, 0, 0, 0.06), 
-    rgba(0, 255, 0, 0.02), 
-    rgba(0, 0, 255, 0.06)
-  );
-  z-index: 9999;
-  background-size: 100% 3px, 3px 100%;
+  inset: 0;
   pointer-events: none;
-  animation: flicker 0.15s infinite;
+  z-index: 9997;
+
+  background-image:
+    radial-gradient(
+      rgba(51,255,0,0.04) 1px,
+      transparent 1px
+    );
+
+  background-size: 4px 4px;
+  opacity: 0.18;
+  filter: blur(0.6px);
+}
+/* =========================================================
+   SCANLINES + RGB BLEED
+   ========================================================= */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.28),
+      rgba(0,0,0,0.28) 1px,
+      rgba(0,0,0,0) 2px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255,0,0,0.05),
+      rgba(0,255,0,0.02),
+      rgba(0,0,255,0.05)
+    );
+
+  background-size: 100% 3px, 4px 100%;
+  animation: crt-flicker 0.14s infinite;
 }
 
-@keyframes flicker {
-  0% { opacity: 0.95; }
-  50% { opacity: 0.92; }
+@keyframes crt-flicker {
+  0% { opacity: 0.94; }
+  50% { opacity: 1; }
   100% { opacity: 0.96; }
 }
 
-/* --- LAYOUT CONTAINERS --- */
-#root {
-  max-width: 1024px;
-  margin: 0 auto;
-  padding: 20px;
-  min-height: 100vh;
-  border-left: 2px solid var(--phosphor-dim);
-  border-right: 2px solid var(--phosphor-dim);
+/* =========================================================
+   CRT FALL-OFF + CURVATURE
+   ========================================================= */
+
+
+#root::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+
+  /* tube luminance falloff */
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(0,0,0,0) 55%,
+      rgba(0,0,0,0.35) 100%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.25),
+      rgba(0,0,0,0),
+      rgba(0,0,0,0.25)
+    );
+
+  mix-blend-mode: multiply;
 }
 
-/* --- TYPOGRAPHY --- */
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
 h1, h2, h3, label {
   text-transform: uppercase;
   font-weight: 400;
@@ -78,57 +144,82 @@ a {
   text-decoration: none;
   border-bottom: 1px dashed var(--phosphor-dim);
 }
+
 a:hover {
   background: var(--phosphor-main);
   color: #000;
   text-shadow: none;
 }
-
-/* --- FORMS & INPUTS --- */
+/* =========================================================
+   ASCII TITLE
+   ========================================================= */
+.ascii-title {
+  font-family: 'VT323', monospace;
+  font-size: 0.5rem;
+  line-height: 1.0;
+  color: var(--phosphor-main);
+  text-align: center;
+  margin: 10px 0 20px 0;
+  white-space: pre;
+  text-shadow: 
+    0 0 10px rgba(51,255,0,0.6),
+    0 0 20px rgba(51,255,0,0.3);
+  overflow-x: auto;
+}
+/* =========================================================
+   FORMS & INPUTS
+   ========================================================= */
 input, select, textarea, button {
   background: #000;
   border: 2px solid var(--phosphor-main);
   color: var(--phosphor-main);
-  font-family: 'VT323', monospace;
-  font-size: 1.2rem;
+  font-family: inherit;
+  font-size: 1.1rem;
   padding: 8px;
   outline: none;
-  box-shadow: 0 0 5px var(--phosphor-dim);
   text-transform: uppercase;
+
+  box-shadow:
+    inset 0 0 6px rgba(51,255,0,0.35),
+    0 0 4px rgba(51,255,0,0.3);
 }
 
-input:focus, select:focus, textarea:focus {
+input:focus,
+select:focus,
+textarea:focus {
   background: var(--phosphor-dim);
   color: #fff;
 }
 
-/* --- BUTTONS --- */
+/* =========================================================
+   BUTTONS
+   ========================================================= */
 button {
   cursor: pointer;
-  transition: all 0.1s;
-  text-transform: uppercase;
+  transition: all 0.08s linear;
 }
 
 button:hover {
   background: var(--phosphor-main);
   color: #000;
-  box-shadow: 0 0 10px var(--phosphor-main);
+  box-shadow: 0 0 12px var(--phosphor-main);
   text-shadow: none;
 }
 
 button.active {
   background: var(--phosphor-main);
   color: #000;
-  font-weight: bold;
   text-shadow: none;
 }
 
-/* --- COMPONENT: FILTER PANEL --- */
+/* =========================================================
+   FILTER PANEL
+   ========================================================= */
 .filter-panel {
   border: 4px double var(--phosphor-main);
   padding: 20px;
   margin-bottom: 20px;
-  background: rgba(0, 20, 0, 0.5);
+  background: rgba(0,20,0,0.55);
 }
 
 .filter-section {
@@ -136,34 +227,38 @@ button.active {
 }
 
 .filter-section label {
-  display: block;
+  display: inline-block;
   background: var(--phosphor-main);
   color: #000;
-  text-shadow: none;
   padding: 2px 8px;
   margin-bottom: 10px;
-  width: fit-content;
+  text-shadow: none;
 }
 
-.language-buttons, .category-buttons {
+.language-buttons,
+.category-buttons {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
 
-/* --- COMPONENT: RESULTS COUNT --- */
+/* =========================================================
+   RESULTS COUNT
+   ========================================================= */
 .results-count {
   margin: 20px 0;
+  padding: 10px 0;
   border-top: 1px dashed var(--phosphor-main);
   border-bottom: 1px dashed var(--phosphor-main);
-  padding: 10px 0;
-  text-align: center;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* --- COMPONENT: TABLE (CHEAT LIST) --- */
+/* =========================================================
+   TABLE
+   ========================================================= */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -176,24 +271,34 @@ thead {
 }
 
 th {
-  text-align: left;
   padding: 10px;
-  border-bottom: 2px solid var(--phosphor-main);
   color: #000;
+  border-bottom: 2px solid var(--phosphor-main);
   text-shadow: none;
 }
 
 td {
   padding: 10px;
   border-bottom: 1px solid var(--phosphor-dim);
-  vertical-align: top;
 }
 
 tr:hover td {
-  background: rgba(51, 255, 0, 0.1);
+  background: rgba(51,255,0,0.1);
+}
+td:last-child {
+  white-space: nowrap;
 }
 
-/* --- COMPONENT: NAV BAR --- */
+td:last-child button {
+  display: inline-block;
+  margin-right: 5px;
+  margin-bottom: 0;
+  padding: 4px 8px;
+  font-size: 0.9rem;
+}
+/* =========================================================
+   NAV BAR
+   ========================================================= */
 nav {
   display: flex;
   justify-content: space-between;
@@ -205,7 +310,6 @@ nav {
 
 nav a {
   margin-left: 20px;
-  border: 1px solid transparent;
   padding: 5px 10px;
 }
 
@@ -213,22 +317,16 @@ nav a.active {
   background: var(--phosphor-main);
   color: #000;
   text-shadow: none;
-  border-color: var(--phosphor-main);
 }
 
-/* --- COMPONENT: LOGIN / FORMS --- */
-.login-page-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 60vh;
-}
-
+/* =========================================================
+   LOGIN
+   ========================================================= */
 .login-card {
   border: 4px double var(--phosphor-main);
   padding: 40px;
-  width: 100%;
   max-width: 400px;
+  margin: 0 auto;
   text-align: center;
 }
 
@@ -238,34 +336,123 @@ nav a.active {
   gap: 15px;
 }
 
-.login-error {
-  border: 1px solid var(--phosphor-main);
-  background: repeating-linear-gradient(
-    45deg,
-    transparent,
-    transparent 10px,
-    var(--phosphor-dim) 10px,
-    var(--phosphor-dim) 20px
-  );
-  padding: 10px;
-  margin-bottom: 15px;
-}
-
-/* --- UTILS: CLOCK --- */
-.dt-inline {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.dt-clock {
-  width: 20px;
-  height: 20px;
-  display: inline-block;
-}
-
-/* Force SVG to inherit the green color */
+/* =========================================================
+   CLOCK / SVG
+   ========================================================= */
 .dt-svg {
   stroke: var(--phosphor-main);
   fill: var(--phosphor-main);
+  filter: drop-shadow(0 0 4px rgba(51,255,0,0.7));
+}
+
+
+/* =========================================================
+   OUTRUN GRID FLOOR
+   ========================================================= */
+.outrun-grid {
+  position: fixed;
+  bottom: -10vh;
+  left: -10%;
+  width: 120%;
+  height: 60vh;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    linear-gradient(rgba(51,255,0,0.45), transparent 60%),
+    repeating-linear-gradient(to right, rgba(51,255,0,0.3), rgba(51,255,0,0.3) 1px, transparent 1px, transparent 48px),
+    repeating-linear-gradient(to top, rgba(51,255,0,0.35), rgba(51,255,0,0.35) 1px, transparent 1px, transparent 28px);
+  transform: perspective(500px) rotateX(68deg) translateZ(-120px);
+  opacity: 0.45;
+  filter: blur(0.2px);
+  animation: grid-crawl 20s linear infinite;
+}
+
+/* Grid crawl animation */
+@keyframes grid-crawl {
+  0% { background-position: 0 0, 0 0, 0 0; }
+  100% { background-position: 0 0, -480px 0, 0 -168px; }
+}
+
+/* Horizontal slow drift */
+body {
+  animation: h-drift 10s ease-in-out infinite alternate;
+}
+
+@keyframes h-drift {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(1px); }
+}
+
+/* Phosphor decay effect for dynamic updates */
+.phosphor-decay {
+  animation: decay-glow 0.6s ease-out;
+}
+
+@keyframes decay-glow {
+  0% { text-shadow: 0 0 10px var(--phosphor-main), 0 0 20px rgba(51,255,0,0.6); }
+  100% { text-shadow: 0 0 1px var(--phosphor-main), 0 0 6px rgba(51,255,0,0.45); }
+}
+
+/* =========================================================
+   DATE TIME - TINY INLINE
+   ========================================================= */
+.dt-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+}
+
+.dt-date {
+  line-height: 1;
+}
+
+.dt-clock {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+}
+
+.dt-svg {
+  width: 100%;
+  height: 100%;
+  stroke: var(--phosphor-main);
+  stroke-width: 1;
+  filter: none;
+}
+
+.dt-ampm {
+  position: absolute;
+  bottom: -2px;
+  right: -4px;
+  font-size: 0.45rem;
+  font-weight: bold;
+}
+
+button {
+  background: #000;
+  border: 1px solid var(--phosphor-main);
+  color: var(--phosphor-main);
+  padding: 6px 10px;
+  box-shadow: inset 0 0 0 1px rgba(51,255,0,0.25);
+}
+
+button:hover {
+  background: var(--phosphor-main);
+  color: #000;
+  box-shadow: inset 0 0 0 1px #000;
+}
+
+.filter-panel,
+.login-card,
+table {
+  border-image:
+    repeating-linear-gradient(
+      90deg,
+      var(--phosphor-main),
+      var(--phosphor-main) 2px,
+      transparent 2px,
+      transparent 6px
+    ) 2;
 }

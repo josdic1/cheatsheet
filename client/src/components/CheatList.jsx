@@ -15,6 +15,7 @@ export function CheatList({ cheats }) {
         <th>Notes</th>
          <th>Created</th>
         <th>Updated</th>
+        <th>Actions</th>
         </tr>
     </thead>
     <tbody>
