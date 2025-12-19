@@ -1,16 +1,59 @@
-# React + Vite
+# CheatSheet - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React frontend for the CheatSheet snippet manager. Features a custom retro Apple IIgs aesthetic, full CRUD interface, and responsive filtering.
 
-Currently, two official plugins are available:
+## Installation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Use the package manager [npm](https://www.npmjs.com/) to install the dependencies.
 
-## React Compiler
+```bash
+# Install dependencies
+npm install
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+> **Server runs on: http://localhost:5173**
 
-## Expanding the ESLint configuration
+## Key Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Retro UI**: Custom "Apple IIgs" CSS system with CRT scanlines and phosphor glow.
+- **Live Filtering**: Instant search by language, category, or keyword.
+- **Routing**: Client-side routing with react-router-dom.
+- **Auth Flow**: Login/Signup forms with defensive error handling.
+
+## Available Scripts
+
+### Command Description
+
+```bash
+npm run dev	Start the development server
+npm run build	Build the app for production
+npm run lint	Run ESLint to check for code issues
+npm run preview	Preview the production build locally
+```
+
+## Project Structure
+
+```bash
+src/
+├── components/      # Reusable UI components (FilterPanel, CheatItem)
+├── hooks/           # Custom hooks (useAuth)
+├── pages/           # Page views (HomePage, CheatPage, LoginPage)
+├── App.jsx          # Main application component
+├── main.jsx         # Entry point
+└── index.css        # Global retro styles
+```
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
+## Contact Me
+
+emailjoshdicker@gmail.com
+[GitHub/josdic1](https://github.com/josdic1/)
