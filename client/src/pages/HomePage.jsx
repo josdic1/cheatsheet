@@ -1,12 +1,14 @@
+// src/pages/HomePage.jsx
 import { useAuth } from "../hooks/useAuth";
 import { FilterPanel } from "../components/FilterPanel";
+import { CheatList } from "../components/CheatList";
 
 export function HomePage() {
-  const { cheatsOnly, languages, categories } = useAuth();
+  const { user, cheatsOnly, languages, categories } = useAuth();
 
   if (!cheatsOnly) return <div>Loading...</div>;
 
-const asciiTitle = `
+  const asciiTitle = `
  ██████╗██╗  ██╗███████╗ █████╗ ████████╗███████╗██╗  ██╗███████╗███████╗████████╗
 ██╔════╝██║  ██║██╔════╝██╔══██╗╚══██╔══╝██╔════╝██║  ██║██╔════╝██╔════╝╚══██╔══╝
 ██║     ███████║█████╗  ███████║   ██║   ███████╗███████║█████╗  █████╗     ██║   
@@ -20,11 +22,14 @@ const asciiTitle = `
     <>
       <div className="outrun-grid" />
       <pre className="ascii-title">{asciiTitle}</pre>
+
       <FilterPanel
         allCheats={cheatsOnly}
-        languages={languages}
-        categories={categories}
+        languages={user.languages}
+        categories={user.categories}
       />
+
+
     </>
   );
 }

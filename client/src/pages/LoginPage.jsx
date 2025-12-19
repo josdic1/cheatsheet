@@ -26,7 +26,7 @@ export function LoginPage() {
 
     const handleAutologin = async () => {
         setFormData({
-            email: 'jos@jos.com',
+            email: 'josh@josh.com',
             password: '1111'
         });
     }

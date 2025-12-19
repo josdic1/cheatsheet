@@ -5,26 +5,27 @@ export function CheatList({ cheats }) {
   if (!cheats || cheats.length === 0) {
     return <NoResults />;
   }
+
   return (
-    <>
-    <table>
-    <thead>
-        <tr>
-        <th>Title</th>
-        <th>Code</th>
-        <th>Notes</th>
-         <th>Created</th>
-        <th>Updated</th>
-        <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-              {cheats.map(cheat => (
-        <CheatItem key={cheat.id} cheat={cheat} />
-      ))}
-    </tbody>
-</table>
-    </>
+    <div className="retro-table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>TITLE</th>
+            <th>TAGS</th>
+            <th>CODE SEQUENCE</th>
+            <th>NOTES</th>
+            <th>CREATED</th>
+            <th>UPDATED</th>
+            <th>ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cheats.map((cheat) => (
+            <CheatItem key={cheat.id} cheat={cheat} />
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
-

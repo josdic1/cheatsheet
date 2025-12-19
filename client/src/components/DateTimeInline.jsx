@@ -37,7 +37,7 @@ export function DateTimeInline({ value }) {
     <span className="dt-inline">
       <span className="dt-date">{formattedDate}</span>
 
-      <span className="dt-clock">
+      {/* <span className="dt-clock">
         <svg viewBox="0 0 100 100" className="dt-svg">
           <circle
             cx="50"
@@ -74,7 +74,7 @@ export function DateTimeInline({ value }) {
         </svg>
 
         <span className="dt-ampm">{ampm}</span>
-      </span>
+      </span> */}
     </span>
   );
 }
