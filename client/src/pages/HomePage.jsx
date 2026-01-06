@@ -4,7 +4,7 @@ import { FilterPanel } from "../components/FilterPanel";
 import { CheatList } from "../components/CheatList";
 
 export function HomePage() {
-  const { user, cheatsOnly, languages, categories } = useAuth();
+  const { user, cheatsOnly, theme, toggleTheme, languages, categories } = useAuth();
 
   if (!cheatsOnly) return <div>Loading...</div>;
 
@@ -22,7 +22,9 @@ export function HomePage() {
     <>
       <div className="outrun-grid" />
       <pre className="ascii-title">{asciiTitle}</pre>
-
+      <button onClick={toggleTheme}>
+  {theme === 'wargames' ? '☀️ Light' : '🖥️ Terminal'}
+</button>
       <FilterPanel
         allCheats={cheatsOnly}
         languages={user.languages}

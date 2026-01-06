@@ -8,8 +8,8 @@ export function AuthProvider({ children }) {
   const [cheatsOnly, setCheatsOnly] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [categories, setCategories] = useState([]);
-
-  const API_URL = "http://localhost:5555/api";
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'wargames');
+  const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5555/api";
 
   useEffect(() => {
     checkSession();
@@ -34,6 +34,17 @@ export function AuthProvider({ children }) {
       setLoading(false); 
     }
   }
+
+  const toggleTheme = () => {
+  const newTheme = theme === 'wargames' ? 'boutique' : 'wargames';
+  setTheme(newTheme);
+  localStorage.setItem('theme', newTheme);
+};
+
+useEffect(() => {
+  const link = document.getElementById('theme-css');
+  link.href = theme === 'wargames' ? '/wargames.css' : '/boutique.css';
+}, [theme]);
 
 
 useEffect(() => {
@@ -211,7 +222,9 @@ const deleteCheat = async (id) => {
     updateCheat,
     deleteCheat,
 languages,
-categories
+categories,  
+theme,
+  toggleTheme
   };
 
     return (

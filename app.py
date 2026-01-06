@@ -4,6 +4,7 @@ from flask_restful import Api
 from flask_cors import CORS
 from config import Config
 from extensions import db, bcrypt
+import os
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -13,8 +14,8 @@ def create_app(config_class=Config):
     bcrypt.init_app(app)
     Migrate(app, db)
 
-    CORS(app, 
-     resources={r"/*": {"origins": "http://localhost:5173"}},
+    CORS(app,
+     resources={r"/*": {"origins": os.environ.get("FRONTEND_URL", "http://localhost:5173")}},
      supports_credentials=True,
      allow_headers=["Content-Type", "Authorization"],  # Add common headers
      methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"])
