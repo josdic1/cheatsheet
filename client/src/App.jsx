@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { AuthProvider } from "./providers/AuthProvider.jsx";
-import { NavBar } from "./components/Navbar.jsx";
+import { NavBar } from "./components/NavBar.jsx";
 
 function App() {
   return (
